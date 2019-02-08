@@ -26,8 +26,7 @@ print()
 #Generates random number#
 
 from random import randint
-compfloat = (randint(1, 100))
-compfloat = float(compfloat)
+compfloat = float(randint(1, 100))
 print (compfloat)
 
 #Askes the user for it's guesses and if they are right or not#
