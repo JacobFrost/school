@@ -11,18 +11,8 @@ count = 1
 
 #Sets up the user by telling them what to do.#
 
-print("Welcome to my game!")
-print()
-print("In this guessing game, the computer generates a random number between 1 and 100. ")
-print("You will attempt to guess the number by entering two numbers - a lower boundary and an upper boundary. ")
-print("The computer will tell you if the mystery number is: ")
-print("smaller than the lower boundary, ")
-print("greater than the upper boundary, ")
-print("or in between the two boundaries (ie, the number is trapped).")
-print()
-print("To win the game, you must guess the mystery number by entering it as the same value for both of the boundaries. ")
-print("However you should not guess numbers more than, 100, less than 1, or with any decimal places.")
-print()
+print("Welcome to my game!"\n\n"In this guessing game, the computer generates a random number between 1 and 100."\n"You will attempt to guess the number by entering two numbers - a lower boundary and an upper boundary."\n"The computer will tell you if the mystery number is: "\n"smaller than the lower boundary, "\n"greater than the upper boundary, "\n
+"or in between the two boundaries (ie, the number is trapped)."\n"To win the game, you must guess the mystery number by entering it as the same value for both of the boundaries. "\n"However you should not guess numbers more than, 100, less than 1, or with any decimal places."\n
 #Generates random number#
 
 from random import randint
