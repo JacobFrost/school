@@ -1,18 +1,18 @@
 class Pile:
-    def __init__(self, pile = 0):
+    def __init__(self, pile = 22):
         self.n_stickpile = pile
 
     def pileStatus(self):
-        print("The pile has", self.n_stickpile, "sticks left.")
+        return self.n_stickpile
 
-    def removeStick(self, amount):
+    def removeStickpile(self, amount):
         if amount < 5 and self.n_stickpile >= amount and amount > 0:
             self.n_sticks -= amount
 
 
 class Player:
     def __init__(self, name = "Bob" , sticks = 0):
-        self.n_sticks = sticks
+        self.sticks = sticks
         self.name = name
 
     def status(self):
@@ -20,12 +20,14 @@ class Player:
 
     def getName(self):
         return self.name
-
-
+    
+    def addSticks(self, amount):
+        self.sticks += amount
+    
 
 class Game:
     def __init__(self):
-        self.stickPile = Pile(22)
+        self.stickPile = Pile()
         self.player = Player(input("What is your name?"))
         self.ai = Player("Ai")
 
@@ -43,10 +45,21 @@ class Game:
 
 
     def pickUpC(self):
-        
-
+        if self.stickPile != 0:
+            winStrat = self.stickPile.pileStatus() % 5
+            if winStrat != 0:
+                self.pile.removeStickpile(winStrat)
+                self.ai.addSticks(winStrat)
+            else:
+                sticks = randint(1,4)
+                self.pile.removeStickpile(sticks)
+                self.ai.addSticks(sticks)
+            if self.stickPile == 0:
+        else:
+            self.win(player)
 
     def pickUpP(self):
+        if
         while True:
             try:
                 sticks = int(input(self.player.getName() + ", How many would you want to pick up?"))
@@ -54,7 +67,12 @@ class Game:
             except ValueError:
                 print("That is not a valid integer number")
         print("You removed", sticks, "sticks from the pile.")
-        self.pile.removeStick(sticks)
+        self.pile.removeStickpile(sticks)
+
+
+    def win(self, winner):
+        print()
+
 
 def start():
     game = Game()
@@ -84,10 +102,3 @@ def start():
                 game.play()
                 break
 start()
-
-
-def win():
-    print()
-
-
-win()
