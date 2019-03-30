@@ -1,22 +1,23 @@
+from random import randint
+
 class Pile:
-    def __init__(self, pile = 22):
-        self.n_stickpile = pile
+    def __init__(self, pile=22):
+        self.pile = pile
 
     def pileStatus(self):
-        return self.n_stickpile
+        return self.pile
 
-    def removeStickpile(self, amount):
-        if amount < 5 and self.n_stickpile >= amount and amount > 0:
-            self.n_sticks -= amount
+    def removepile(self, amount):
+        self.pile -= amount
 
 
 class Player:
-    def __init__(self, name = "Bob" , sticks = 0):
+    def __init__(self, name="Bob", sticks=0):
         self.sticks = sticks
         self.name = name
 
-    def status(self):
-        print(self.name + " Has ", self.n_sticks, "sticks.")
+    def getSticks(self):
+        return self.sticks
 
     def getName(self):
         return self.name
@@ -27,51 +28,69 @@ class Player:
 
 class Game:
     def __init__(self):
-        self.stickPile = Pile()
+        self.pile = Pile()
         self.player = Player(input("What is your name?"))
         self.ai = Player("Ai")
 
-
     def play(self):
-            whostart = input("Who do you want to start? (0 for you, 1 for ai)")
-            if whostart == "0":
-                print("Great! You are starting first!")
-                self.pickUpP()
-            elif whostart == "1":
-                print("Great! The computer will be starting first!")
-                self.pickUpC()
-            else:
-                print("Sorry but that is not a valid choice.")
-
+        whostart = input("Who do you want to start? (0 for you, 1 for ai)")
+        if whostart == "0":
+            print("\nGreat! You are starting first!")
+            self.pickUpP()
+        elif whostart == "1":
+            print("\nGreat! The computer will be starting first!")
+            self.pickUpC()
+        else:
+            print("Sorry but that is not a valid choice.")
 
     def pickUpC(self):
-        if self.stickPile != 0:
-            winStrat = self.stickPile.pileStatus() % 5
-            if winStrat != 0:
-                self.pile.removeStickpile(winStrat)
-                self.ai.addSticks(winStrat)
-            else:
-                sticks = randint(1,4)
-                self.pile.removeStickpile(sticks)
-                self.ai.addSticks(sticks)
-            if self.stickPile == 0:
+        amount = self.pile.pileStatus() % 5
+        if amount != 0:
+            self.pile.removepile(amount)
+            self.ai.addSticks(amount)
         else:
-            self.win(player)
+            amount = randint(1, 4)
+            self.pile.removepile(amount)
+            self.ai.addSticks(amount)
+        print("The Ai took", amount, "from the pile\n")
+        if self.pile.pileStatus() == 0:
+            self.win("ai")
+        self.pickUpP()
 
     def pickUpP(self):
-        if
         while True:
             try:
-                sticks = int(input(self.player.getName() + ", How many would you want to pick up?"))
-                break
+                print("You have", self.player.getSticks(), "sticks and the ai has", self.ai.getSticks(), "sticks.")
+                amount = int(input(self.player.getName() + ", How many sticks do you want to pick up from"
+                                                           " the " + str(self.pile.pileStatus()) + " stick pile?"))
+                if amount <= 4:
+                    if self.pile.pileStatus() >= amount:
+                        if amount >= 1:
+                            break
+                        else:
+                            print("Sorry", amount, "is not a valid option. Please choose a value greater than"
+                                                   " or equal to 1\n\n")
+                    else:
+                        print("Sorry", amount, "is not a valid option. Please choose a value less than"
+                                               " or equal to the amount left in the pile.\n\n")
+                else:
+                    print("Sorry", amount, "is not a valid option. Please choose a value less than"
+                                           " or equal to 4.\n\n")
             except ValueError:
-                print("That is not a valid integer number")
-        print("You removed", sticks, "sticks from the pile.")
-        self.pile.removeStickpile(sticks)
-
+                print("That is not a valid integer number\n\n")
+        print("You removed", amount, "sticks from the pile.\n")
+        self.pile.removepile(amount)
+        self.player.addSticks(amount)
+        if self.pile.pileStatus() == 0:
+            self.win("player")
+        self.pickUpC()
 
     def win(self, winner):
-        print()
+        if winner == "player":
+            print("Congrats " + self.player.getName() + ", you picked up the last stick and won!")
+        elif winner == "ai":
+            print("Sorry " + self.player.getName() + ", the ai won.")
+        exit()
 
 
 def start():
@@ -101,4 +120,6 @@ def start():
             while True:
                 game.play()
                 break
+
+
 start()
